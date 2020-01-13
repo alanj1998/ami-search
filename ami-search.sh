@@ -36,8 +36,8 @@ the most recent being the first listed.
 usage: $(basename $0) -d distro [-n num] [-p profile] [-r region] [-s]
 
 -d specifies distribution [REQUIRED]; currently valid arguments:
-   amazon, amazon2, centos6, centos7, freebsd11, rhel, ubuntu1604,
-   or ubuntu1804
+   amazon, amazon2, centos6, centos7, freebsd11, rhel, ubuntu1404, ubuntu1604,
+   , ubuntu1804 or ubuntu1904
 -n the maximum number of results to list. Default is 4.
 -p specifies a profile in your ~/.aws/credentials file. Uses the
    default profile if none is specified.
@@ -106,6 +106,14 @@ case "$DISTRO" in
     DESC="Provided by Red Hat,"
     STDRET="ImageId, CreationDate, Name"
     ;;
+  ubuntu1204)
+    OWNER="099720109477"
+    DESC="Canonical, Ubuntu, 12.04 LTS, amd64"
+    ;;
+  ubuntu1404)
+    OWNER="099720109477"
+    DESC="Canonical, Ubuntu, 14.04 LTS, amd64"
+    ;;
   ubuntu1604)
     OWNER="099720109477"
     DESC="Canonical, Ubuntu, 16.04 LTS, amd64"
@@ -113,6 +121,10 @@ case "$DISTRO" in
   ubuntu1804)
     OWNER="099720109477"
     DESC="Canonical, Ubuntu, 18.04 LTS, amd64"
+    ;;
+  ubuntu1904)
+    OWNER="099720109477"
+    DESC="Canonical, Ubuntu, 19.04, amd64"
     ;;
   *)
     showusage
@@ -138,7 +150,7 @@ RETURN=${CLIRET:-"$STDRET"}
 
 ### Finally, launch AWS query
 
-aws $AWSOPT ec2 describe-images \
+aws2 $AWSOPT ec2 describe-images \
   --owners $OWNER \
   --output text \
   --filters \
@@ -149,3 +161,4 @@ aws $AWSOPT ec2 describe-images \
   --query "${SORT} | ${TEST} | [0:${NUM}].[${RETURN}]"
 
 # fini
+
