@@ -23,7 +23,7 @@ XTRAFILTER="Name=block-device-mapping.volume-type,Values=gp2"
 # By default, return three fields of interest: image ID, creation
 # date, and AMI description. RHEL returns Name instead of Description.
 # Can be changed to list only the ImageId with -s option.
-STDRET="ImageId, CreationDate, Description"
+STDRET="ImageId, CreationDate, Description, Name"
 
 # Function to print a help screen
 function showusage {
@@ -143,7 +143,7 @@ SORT="reverse(sort_by(Images, &CreationDate))"
 TEST="[?Description != \`null\`] | [?starts_with(Description, \`$DESC\`)]"
 
 # By default, return 4 results. Can be overridden with -n option.
-NUM=${CLINUM:-4}
+NUM=${CLINUM:-1}
 
 # What fields will be printed to console?
 RETURN=${CLIRET:-"$STDRET"}
